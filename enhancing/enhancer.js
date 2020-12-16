@@ -16,6 +16,9 @@ function success(item) {
 
 function fail(item) {
   const { enhancement, durability} = item
+  if(durability <= 0) {
+    return {...item, durability: 0}
+  }
   if(enhancement < 15) {
     return {...item, durability: durability - 5}
   } else if (enhancement >= 15) {
