@@ -49,5 +49,39 @@ describe('Enhancing Item', () => {
         item = {...enhancer.success(item)}
         expect(item).toHaveProperty('enhancement', 20)
     })
-    it('')
+    it('enhancer fail is a function', () => {
+        expect(enhancer.fail).toBeInstanceOf(Function)
+    })
+    it('enhancer fail returns a new item', () => {
+        expect(enhancer.fail(item)).toHaveProperty('name')
+        expect(enhancer.fail(item)).toHaveProperty('durability')
+        expect(enhancer.fail(item)).toHaveProperty('enhancement')
+    })
+    it('on fail below enhancement level 15, durability decreases by 5', () => {
+        expect(item).toHaveProperty('durability', 50)
+        item = {...enhancer.fail(item)}
+        expect(item).toHaveProperty('durability', 45)
+        item = {...enhancer.fail(item)}
+        item = {...enhancer.fail(item)}
+        expect(item).toHaveProperty('durability', 35)
+    })
+    it('on fail on enhancement level 15 or above, durability decreases by 10', () => {
+        item = {...item, enhancement:15}
+        expect(item).toMatchObject({enhancement: 15, durability: 50})
+        item = {...enhancer.fail(item)}
+        expect(item).toMatchObject({enhancement: 15, durability: 40})
+        item = {...enhancer.fail(item)}
+        item = {...enhancer.fail(item)}
+        expect(item).toMatchObject({enhancement: 15, durability: 20})
+    })
+    it('on fail when enhancement level is greater than 16, enhancement level decreases by 1', () =>{
+        item = {...item, enhancement: 18}
+        expect(item).toMatchObject({enhancement: 18})
+        item = {...enhancer.fail(item)}
+        expect(item).toMatchObject({enhancement: 17})
+        item = {...enhancer.fail(item)}
+        item = {...enhancer.fail(item)}
+        item = {...enhancer.fail(item)}
+        expect(item).toMatchObject({enhancement: 16})
+    })
 })

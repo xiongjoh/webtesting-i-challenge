@@ -7,7 +7,6 @@ module.exports = {
 
 function success(item) {
   const { enhancement } = item
-  console.log(enhancement)
   if(enhancement >= 20) {
     return {...item}
   } else {
@@ -16,6 +15,16 @@ function success(item) {
 }
 
 function fail(item) {
+  const { enhancement, durability} = item
+  if(enhancement < 15) {
+    return {...item, durability: durability - 5}
+  } else if (enhancement >= 15) {
+    if (enhancement > 16) {
+      return {...item, durability: durability - 10, enhancement:enhancement -1}
+    } else {
+      return {...item, durability: durability - 10}
+    }
+  }
   return { ...item };
 }
 
